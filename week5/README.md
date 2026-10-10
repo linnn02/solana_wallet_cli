@@ -59,10 +59,3 @@ npm install
 npx ts-node src/index.ts
 ```
 
-## Скриншоты для отчёта
-1. **Сборка Anchor программы**: консоль с успешным завершением `cargo build-sbf` (`counter.so`).
-2. **Деплой в Devnet**: консоль с выводом `solana program deploy` (где отображается Program ID `D93gSKF3Qre9jsF72Ww9sLaVU4e2cW2Mjxebm3x2hcvU`).
-3. **Запуск клиента**: консоль с выводом `npx ts-node src/index.ts`, подтверждающая последовательное выполнение `initialize` (count: 0) -> `increment` (count: 1) -> `decrement` (count: 0).
-4. **Solana Explorer (Program)**: страница программы `D93gSKF3Qre9jsF72Ww9sLaVU4e2cW2Mjxebm3x2hcvU` в Devnet.
-5. **Solana Explorer (Initialize Tx)**: страница транзакции `48AQZmVduvvUuwHDtFNreR8BGAK7WEMnCcyc7QeXeur4c2ymqQX73U9E8SmyLQkebCwZPqdNAnsqbYqmivXMea98`.
-6. **Solana Explorer (Increment Tx)**: страница транзакции `3LFbH8qtbT7j3nyUhEwR6r32Ygkc3ms5ynRTEkcxq9fuB9FXKTrS2qPxGUD8uBNmzxRGMJanqgBDEBYt5NLgywvU`.

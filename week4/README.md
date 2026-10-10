@@ -61,10 +61,3 @@ npm install
 npx ts-node src/index.ts 2Pi52xRjr6rUzcC7VZyUQXNyfRj6e1gmuNdQg3M8vb9e
 ```
 
-## Скриншоты для отчёта
-1. **Сборка программы**: консоль с успешным выполнением `cargo build-sbf` и созданием `hello_world.so`.
-2. **Баланс и сеть**: вывод команд `solana config get` и `solana balance`.
-3. **Деплой программы**: консоль с выводом `solana program deploy` (где отображаются `Program Id` и сигнатура).
-4. **Запуск клиента**: консоль с выводом выполнения `npx ts-node src/index.ts` и `Transaction signature`.
-5. **Solana Explorer (Program)**: страница программы `2Pi52xRjr6rUzcC7VZyUQXNyfRj6e1gmuNdQg3M8vb9e` в Devnet.
-6. **Solana Explorer (Transaction)**: страница транзакции `4gKkBFTSL9HboL51sNVCodbZbquGtDfZWdzs1Phh9Dh7PnUe8pNfGPByYSyrNVe9y8PZpkRATYbzHaVLqZic4VbY` с логом `"Hello, Solana!"`.

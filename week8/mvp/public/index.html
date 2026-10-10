@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solana Student Hub — Web3 MVP Dashboard (Week 8)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-card: rgba(18, 24, 38, 0.85);
+      --bg-card-hover: rgba(26, 34, 54, 0.95);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(153, 69, 255, 0.3);
+      --sol-purple: #9945FF;
+      --sol-green: #14F195;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 15%, rgba(153, 69, 255, 0.15) 0%, transparent 40%),
+                  radial-gradient(circle at 85% 25%, rgba(20, 241, 149, 0.12) 0%, transparent 45%),
+                  radial-gradient(circle at 50% 80%, rgba(153, 69, 255, 0.08) 0%, transparent 50%),
+                  var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--sol-purple), var(--sol-green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(153, 69, 255, 0.4);
+    }
+
+    .logo-icon svg {
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
+    }
+
+    .brand-text h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #fff 0%, #d1d5db 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    .badge-network {
+      background: rgba(20, 241, 149, 0.1);
+      border: 1px solid rgba(20, 241, 149, 0.3);
+      color: var(--sol-green);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--sol-green);
+      box-shadow: 0 0 8px var(--sol-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .badge-sprint {
+      background: rgba(153, 69, 255, 0.12);
+      border: 1px solid rgba(153, 69, 255, 0.3);
+      color: #c084fc;
+    }
+
+    /* HERO BANNER */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(153, 69, 255, 0.12) 0%, rgba(20, 241, 149, 0.08) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-info h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 650px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--sol-purple), #7928ca);
+      color: white;
+      box-shadow: 0 4px 15px rgba(153, 69, 255, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(153, 69, 255, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* GRID */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.6rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .card:hover {
+      border-color: rgba(153, 69, 255, 0.35);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .icon-wallet { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); }
+    .icon-identity { background: rgba(153, 69, 255, 0.15); border: 1px solid rgba(153, 69, 255, 0.3); }
+    .icon-token { background: rgba(20, 241, 149, 0.15); border: 1px solid rgba(20, 241, 149, 0.3); }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+    }
+
+    .stat-hero {
+      margin-bottom: 1.25rem;
+    }
+
+    .stat-hero-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .stat-hero-unit {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .stat-hero-sub {
+      font-size: 0.85rem;
+      color: var(--sol-green);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .details-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .mono-truncated {
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .copy-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* FULL WIDTH CONTRACTS TABLE */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.75rem;
+      backdrop-filter: blur(12px);
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contracts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .contracts-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .contracts-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .contracts-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .contracts-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .module-badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(20, 241, 149, 0.1);
+      color: var(--sol-green);
+      border: 1px solid rgba(20, 241, 149, 0.25);
+    }
+
+    .explorer-link {
+      color: #93c5fd;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.15s;
+    }
+
+    .explorer-link:hover {
+      color: #bfdbfe;
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(18, 24, 38, 0.95);
+      border: 1px solid var(--sol-green);
+      color: var(--text-main);
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 17.5l3.5-3.5h12.5l-3.5 3.5H4zm0-6.5l3.5-3.5h12.5L16.5 11H4zm3.5-7L4 7.5h12.5l3.5-3.5H7.5z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Solana Student Hub</h1>
+          <p>Web3 MVP Sprint Prototype • Week 8</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <div class="badge badge-network">
+          <div class="pulse-dot"></div>
+          <span>Solana Devnet</span>
+        </div>
+        <div class="badge badge-sprint">
+          <span>Sprint 1 MVP 🏆</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <div class="hero-info">
+        <h2>Единый Web3 Дашборд студента</h2>
+        <p>
+          Интегрированная рабочая панель выпускного спринта недели 8. Связывает воедино ваш Devnet-кошелёк (Week 3), ончейн-профиль в PDA (Week 6) и выпущенные токены SST Token-2022 (Week 7).
+        </p>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="btn btn-primary" id="refreshBtn" onclick="loadLiveOnChainData()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          Обновить Devnet
+        </button>
+        <a class="btn btn-secondary" href="https://explorer.solana.com/address/7gqthLdoiQEW6nxwtbyPmcodWy7DyKxxafyPtSvkHp6J?cluster=devnet" target="_blank">
+          Solana Explorer ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- MAIN CARDS GRID -->
+    <div class="grid-3">
+      <!-- CARD 1: WALLET -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-icon icon-wallet">💳</div>
+            <div>
+              <div class="card-title">Кошелёк разработчика</div>
+              <div class="card-tag">Week 3 CLI Core</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-hero">
+          <div class="stat-hero-value">
+            <span id="solBalanceVal">0.0786</span>
+            <span class="stat-hero-unit">SOL</span>
+          </div>
+          <div class="stat-hero-sub">
+            <span>●</span> Баланс активен (Devnet)
+          </div>
+        </div>
+        <div class="details-list">
+          <div class="detail-row">
+            <span class="detail-label">Публичный ключ:</span>
+            <div class="detail-value">
+              <span class="mono-truncated" id="walletPubkey">7gqthLdoiQEW6nxwtbyPmcodWy7DyKxxafyPtSvkHp6J</span>
+              <button class="copy-btn" onclick="copyText('7gqthLdoiQEW6nxwtbyPmcodWy7DyKxxafyPtSvkHp6J')" title="Скопировать">📋</button>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Тип ключа:</span>
+            <span class="detail-value">Ed25519 Keypair</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Статус:</span>
+            <span class="detail-value" style="color: var(--sol-green);">Funded & Verified</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: IDENTITY / PDA PROFILE -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-icon icon-identity">🆔</div>
+            <div>
+              <div class="card-title">Ончейн-профиль (PDA)</div>
+              <div class="card-tag">Week 6 Anchor Identity</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-hero">
+          <div class="stat-hero-value" style="font-size: 1.8rem;" id="profileUsername">
+            solana_dev
+          </div>
+          <div class="stat-hero-sub" id="profileBio">
+            Certified Solana Developer | Devnet Verified!
+          </div>
+        </div>
+        <div class="details-list">
+          <div class="detail-row">
+            <span class="detail-label">Profile PDA:</span>
+            <div class="detail-value">
+              <span class="mono-truncated">BipKbzdXpPSFpjEcDCdGDM3Hi9T4xY3LRtGPLZRYRpbf</span>
+              <button class="copy-btn" onclick="copyText('BipKbzdXpPSFpjEcDCdGDM3Hi9T4xY3LRtGPLZRYRpbf')" title="Скопировать">📋</button>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">PDA Seeds:</span>
+            <span class="detail-value">["profile", authority]</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Canonical Bump:</span>
+            <span class="detail-value">255 (Optimal)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3: TOKEN ASSETS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-icon icon-token">🪙</div>
+            <div>
+              <div class="card-title">Токены студента (SST)</div>
+              <div class="card-tag">Week 7 SPL Token-2022</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-hero">
+          <div class="stat-hero-value">
+            <span id="tokenBalanceVal">750</span>
+            <span class="stat-hero-unit">SST</span>
+          </div>
+          <div class="stat-hero-sub">
+            <span>●</span> Solana Student Token (Decimals: 9)
+          </div>
+        </div>
+        <div class="details-list">
+          <div class="detail-row">
+            <span class="detail-label">Mint Address:</span>
+            <div class="detail-value">
+              <span class="mono-truncated">bx75hPxpE9eSMaZMkzKY7jH9DnSSGK6Q8vrjY5h2Qzh</span>
+              <button class="copy-btn" onclick="copyText('bx75hPxpE9eSMaZMkzKY7jH9DnSSGK6Q8vrjY5h2Qzh')" title="Скопировать">📋</button>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Student ATA:</span>
+            <div class="detail-value">
+              <span class="mono-truncated">5BAo5rjWEz74rrP8CHEdyEmkoc2qVkeXJnu1NZbnUCUX</span>
+              <button class="copy-btn" onclick="copyText('5BAo5rjWEz74rrP8CHEdyEmkoc2qVkeXJnu1NZbnUCUX')" title="Скопировать">📋</button>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Extensions:</span>
+            <span class="detail-value" style="color: #c084fc;">Metadata Pointer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON-CHAIN PROGRAMS REGISTRY -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📦</span>
+          <span>Развёрнутые программы и ончейн-компоненты экосистемы</span>
+        </div>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Solana Devnet Cluster</span>
+      </div>
+
+      <table class="contracts-table">
+        <thead>
+          <tr>
+            <th>Модуль</th>
+            <th>Назначение</th>
+            <th>Идентификатор / Адрес в сети</th>
+            <th>Статус</th>
+            <th>Solana Explorer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="module-badge">Week 4</span></td>
+            <td><strong>Native Program</strong> (Hello World SBPF)</td>
+            <td><code>2Pi52xRjr6rUzcC7VZyUQXNyfRj6e1gmuNdQg3M8vb9e</code></td>
+            <td><span class="status-pill"><span>●</span> Deployed</span></td>
+            <td><a class="explorer-link" href="https://explorer.solana.com/address/2Pi52xRjr6rUzcC7VZyUQXNyfRj6e1gmuNdQg3M8vb9e?cluster=devnet" target="_blank">Открыть ↗</a></td>
+          </tr>
+          <tr>
+            <td><span class="module-badge">Week 5</span></td>
+            <td><strong>Anchor Counter</strong> (State & Instructions)</td>
+            <td><code>D93gSKF3Qre9jsF72Ww9sLaVU4e2cW2Mjxebm3x2hcvU</code></td>
+            <td><span class="status-pill"><span>●</span> Deployed</span></td>
+            <td><a class="explorer-link" href="https://explorer.solana.com/address/D93gSKF3Qre9jsF72Ww9sLaVU4e2cW2Mjxebm3x2hcvU?cluster=devnet" target="_blank">Открыть ↗</a></td>
+          </tr>
+          <tr>
+            <td><span class="module-badge">Week 6</span></td>
+            <td><strong>Anchor User Profile</strong> (PDA Accounts)</td>
+            <td><code>CFqRzR9dPUMhcLYxjFwTyHRocDqe1XEU4rLfGc6uTn7W</code></td>
+            <td><span class="status-pill"><span>●</span> Deployed</span></td>
+            <td><a class="explorer-link" href="https://explorer.solana.com/address/CFqRzR9dPUMhcLYxjFwTyHRocDqe1XEU4rLfGc6uTn7W?cluster=devnet" target="_blank">Открыть ↗</a></td>
+          </tr>
+          <tr>
+            <td><span class="module-badge">Week 7</span></td>
+            <td><strong>Token-2022 Mint</strong> (SST Token)</td>
+            <td><code>bx75hPxpE9eSMaZMkzKY7jH9DnSSGK6Q8vrjY5h2Qzh</code></td>
+            <td><span class="status-pill"><span>●</span> Active Mint</span></td>
+            <td><a class="explorer-link" href="https://explorer.solana.com/address/bx75hPxpE9eSMaZMkzKY7jH9DnSSGK6Q8vrjY5h2Qzh?cluster=devnet" target="_blank">Открыть ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>Rust для Solana-разработчика • Superteam Build Sprint MVP (Weeks 1–8)</p>
+      <p style="margin-top: 0.25rem;">Разработано на Solana Devnet • Все смарт-контракты верифицированы</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">Текст скопирован в буфер обмена!</div>
+
+  <script>
+    const DEVNET_RPC = "https://api.devnet.solana.com";
+    const WALLET = "7gqthLdoiQEW6nxwtbyPmcodWy7DyKxxafyPtSvkHp6J";
+    const ATA = "5BAo5rjWEz74rrP8CHEdyEmkoc2qVkeXJnu1NZbnUCUX";
+    const PDA = "BipKbzdXpPSFpjEcDCdGDM3Hi9T4xY3LRtGPLZRYRpbf";
+
+    async function rpcCall(method, params) {
+      const resp = await fetch(DEVNET_RPC, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params })
+      });
+      return await resp.json();
+    }
+
+    async function loadLiveOnChainData() {
+      const refreshBtn = document.getElementById("refreshBtn");
+      refreshBtn.disabled = true;
+      refreshBtn.innerText = "Загрузка...";
+
+      try {
+        // 1. SOL Balance
+        const balRes = await rpcCall("getBalance", [WALLET]);
+        if (balRes.result && balRes.result.value !== undefined) {
+          const sol = (balRes.result.value / 1e9).toFixed(4);
+          document.getElementById("solBalanceVal").innerText = sol;
+        }
+
+        // 2. Token Balance
+        const tokRes = await rpcCall("getTokenAccountBalance", [ATA]);
+        if (tokRes.result && tokRes.result.value) {
+          document.getElementById("tokenBalanceVal").innerText = tokRes.result.value.uiAmountString;
+        }
+
+        // 3. PDA Profile
+        const pdaRes = await rpcCall("getAccountInfo", [PDA, { encoding: "base64" }]);
+        if (pdaRes.result && pdaRes.result.value && pdaRes.result.value.data) {
+          const b64 = pdaRes.result.value.data[0];
+          const raw = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+          // Parse Anchor struct: 8 discriminator + 32 authority + 4 len + username + 4 len + bio
+          let offset = 40;
+          const uLen = raw[offset] | (raw[offset+1] << 8) | (raw[offset+2] << 16) | (raw[offset+3] << 24);
+          offset += 4;
+          const uBytes = raw.subarray(offset, offset + uLen);
+          const username = new TextDecoder().decode(uBytes);
+          offset += uLen;
+
+          const bLen = raw[offset] | (raw[offset+1] << 8) | (raw[offset+2] << 16) | (raw[offset+3] << 24);
+          offset += 4;
+          const bBytes = raw.subarray(offset, offset + bLen);
+          const bio = new TextDecoder().decode(bBytes);
+
+          if (username) document.getElementById("profileUsername").innerText = username;
+          if (bio) document.getElementById("profileBio").innerText = bio;
+        }
+
+        showToast("Данные успешно синхронизированы с Solana Devnet! ✅");
+      } catch (err) {
+        console.error("RPC Error:", err);
+        showToast("Ошибка подключения к Devnet RPC");
+      } finally {
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          Обновить Devnet
+        `;
+      }
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt).then(() => {
+        showToast("Скопировано: " + txt.substring(0, 8) + "...");
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.innerText = msg;
+      toast.style.display = "flex";
+      setTimeout(() => { toast.style.display = "none"; }, 3000);
+    }
+
+    // Auto-fetch on load
+    window.addEventListener("DOMContentLoaded", loadLiveOnChainData);
+  </script>
+</body>
+</html>

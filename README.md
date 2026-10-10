@@ -9,7 +9,7 @@
 * **[Week 5: Anchor Framework](./week5/)** — Counter Program на Anchor Framework, деплой в Devnet и клиент взаимодействия на TypeScript.
 * **[Week 6: Accounts, PDAs и архитектура программ](./week6/)** — децентрализованный on-chain профиль с использованием Program Derived Addresses (PDA).
 * **[Week 7: SPL Tokens и Token Extensions](./week7/)** — собственный токен (Token-2022), расширение Metadata Pointer, выпуск (mint) и перевод (transfer).
-* **Week 8: BUILD SPRINT (Web3 MVP)** — итоговый рабочий прототип *(в разработке)*.
+* **[Week 8: BUILD SPRINT (Web3 MVP)](./week8/)** — итоговый рабочий Web3 MVP дашборд, объединяющий кошелёк, PDA-профиль и SPL-токены.
 
 ---
 

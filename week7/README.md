@@ -52,9 +52,3 @@ npm install
 npx ts-node src/index.ts
 ```
 
-## Скриншоты для отчёта
-1. **Создание и инициализация токена**: консоль со строками `Mint Creation & Metadata Tx Signature` и `On-Chain Metadata verified: Solana Student Token (SST)`.
-2. **Минт и перевод токенов**: вывод этапов `Minting 1,000 SST` и `transferring 250 SST` с итоговыми балансами.
-3. **Solana Explorer (Token Mint)**: страница токена `bx75hPxpE9eSMaZMkzKY7jH9DnSSGK6Q8vrjY5h2Qzh` в Devnet.
-4. **Solana Explorer (Mint Tx)**: детали транзакции создания токена и метаданных.
-5. **Solana Explorer (Transfer Tx)**: детали транзакции перевода 250 SST.

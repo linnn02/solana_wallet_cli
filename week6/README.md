@@ -62,10 +62,3 @@ npm install
 npx ts-node src/index.ts
 ```
 
-## Скриншоты для отчёта
-1. **Сборка PDA программы**: консоль с успешным выполнением `cargo build-sbf` (`profile.so`).
-2. **Деплой в Devnet**: консоль с `solana program deploy` (Program ID `CFqRzR9dPUMhcLYxjFwTyHRocDqe1XEU4rLfGc6uTn7W`).
-3. **Логи клиента**: консоль с выводом вычисления `Derived Profile PDA`, транзакций создания и обновления профиля.
-4. **Solana Explorer (Program)**: страница программы `CFqRzR9dPUMhcLYxjFwTyHRocDqe1XEU4rLfGc6uTn7W`.
-5. **Solana Explorer (Profile PDA Account)**: страница PDA-аккаунта `BipKbzdXpPSFpjEcDCdGDM3Hi9T4xY3LRtGPLZRYRpbf` со статусом и данными.
-6. **Solana Explorer (Create Profile Tx)**: транзакция `iuzE7X6N9uxbaYhLnYoMAtqykDKsgp7KKnqa2HSpwSekXD8LYTd428efjkJhji1tp3szu9Uv6niSD53sZEpUHLs`.
