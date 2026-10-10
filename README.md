@@ -7,7 +7,7 @@
 * **[Week 3: Rust для Solana-разработчика](./)** — базовая CLI-программа кошелька на чистом Rust (исходный код в `src/main.rs`).
 * **[Week 4: Первая Solana Program](./week4/)** — разработка и деплой первой программы на Rust (`solana-program`) в сеть Devnet, вызов через TypeScript-клиент.
 * **[Week 5: Anchor Framework](./week5/)** — Counter Program на Anchor Framework, деплой в Devnet и клиент взаимодействия на TypeScript.
-* **Week 6: Accounts, PDAs и архитектура программ** — on-chain профиль с использованием Program Derived Addresses *(в разработке)*.
+* **[Week 6: Accounts, PDAs и архитектура программ](./week6/)** — децентрализованный on-chain профиль с использованием Program Derived Addresses (PDA).
 * **Week 7: SPL Tokens и Token Extensions** — создание токена, выпуск (mint), трансфер и метаданные *(в разработке)*.
 * **Week 8: BUILD SPRINT (Web3 MVP)** — итоговый рабочий прототип *(в разработке)*.
 
